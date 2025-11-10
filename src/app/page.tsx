@@ -1,7 +1,5 @@
 "use client"
 
-import { requireAuth } from "@/lib/auth-utils";
-import { caller } from "@/trpc/server";
 import { LogoutButton } from "./logout";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTRPC } from "@/trpc/client";
@@ -16,6 +14,9 @@ const Page = () => {
   const testAi = useMutation(trpc.testAi.mutationOptions({
     onSuccess: () => {
       toast.success("AI Job queued");
+    },
+    onError: () => {
+      toast.error("Something went wrong");
     }
   }));
 
