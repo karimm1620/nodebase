@@ -4,7 +4,7 @@ import prisma from "@/lib/db";
 
 export const appRouter = createTRPCRouter({
   testAi: baseProcedure.mutation(async () => {
-    await inngest.send({ 
+    await inngest.send({
       name: "execute/ai",
     });
 

@@ -26,15 +26,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth-client";
 
-const registerSchema = z.object({
-  email: z.email("Please enter a valid email address"),
-  password: z.string().min(1, "Password is required"),
-  confirmPassword: z.string(),
-})
-.refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"]
-});
+const registerSchema = z
+  .object({
+    email: z.email("Please enter a valid email address"),
+    password: z.string().min(1, "Password is required"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -64,9 +65,9 @@ export function RegisterForm() {
         },
         onError: (ctx) => {
           toast.error(ctx.error.message);
-        }
+        },
       }
-    )
+    );
   };
 
   const isPending = form.formState.isSubmitting;
@@ -89,7 +90,12 @@ export function RegisterForm() {
                     type="button"
                     disabled={isPending}
                   >
-                    <Image src="/logos/github.svg" alt="GitHub" width={20} height={20} />
+                    <Image
+                      src="/logos/github.svg"
+                      alt="GitHub"
+                      width={20}
+                      height={20}
+                    />
                     Continue with Github
                   </Button>
                   <Button
@@ -98,7 +104,12 @@ export function RegisterForm() {
                     type="button"
                     disabled={isPending}
                   >
-                    <Image src="/logos/google.svg" alt="Google" width={20} height={20} />
+                    <Image
+                      src="/logos/google.svg"
+                      alt="Google"
+                      width={20}
+                      height={20}
+                    />
                     Continue with Google
                   </Button>
                 </div>

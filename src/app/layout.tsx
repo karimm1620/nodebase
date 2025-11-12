@@ -30,8 +30,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TRPCReactProvider>
-        {children}
-        <Toaster />
+          {children}
+          <Toaster />
         </TRPCReactProvider>
       </body>
     </html>

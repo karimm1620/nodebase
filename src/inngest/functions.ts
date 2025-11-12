@@ -12,7 +12,9 @@ export const execute = inngest.createFunction(
   async ({ event, step }) => {
     await step.sleep("pretend", "5s");
 
-    Sentry.logger.info('User triggered test log', { log_source: 'sentry_test' });
+    Sentry.logger.info("User triggered test log", {
+      log_source: "sentry_test",
+    });
     console.warn("Something is misiing");
     console.error("This is an error i want to track");
 
@@ -25,9 +27,8 @@ export const execute = inngest.createFunction(
         recordInputs: true,
         recordOutputs: true,
       },
-    }
-  );
+    });
 
     return steps;
-  },
+  }
 );
