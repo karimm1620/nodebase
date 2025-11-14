@@ -1,7 +1,7 @@
 import { requireAuth } from "@/lib/auth-utils";
 
 const page = async () => {
-  await requireAuth;
+  await requireAuth();
 
   return <p>Executions</p>;
 };
