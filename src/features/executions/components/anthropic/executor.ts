@@ -23,6 +23,7 @@ type AnthropicData = {
 export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
   data,
   nodeId,
+  userId,
   context,
   step,
   publish,
@@ -45,14 +46,14 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
   }
 
   if (!data.credentialId) {
-      await publish(
-        anthropicChannel().status({
-          nodeId,
-          status: "error",
-        }),
-      );
-      throw new NonRetriableError("Anthropic node: Credential is required");
-    }
+    await publish(
+      anthropicChannel().status({
+        nodeId,
+        status: "error",
+      })
+    );
+    throw new NonRetriableError("Anthropic node: Credential is required");
+  }
 
   if (!data.userPrompt) {
     await publish(
@@ -73,11 +74,18 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
     return prisma.credential.findUnique({
       where: {
         id: data.credentialId,
+        userId,
       },
     });
   });
 
   if (!credential) {
+    await publish(
+      anthropicChannel().status({
+        nodeId,
+        status: "error",
+      })
+    );
     throw new NonRetriableError("Anthropic node: Credential not found");
   }
 
@@ -86,16 +94,20 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
   });
 
   try {
-    const { steps } = await step.ai.wrap("anthropic-generate-text", generateText, {
-      model: anthropic("claude-sonnet-4-5"),
-      system: systemPrompt,
-      prompt: userPrompt,
-      experimental_telemetry: {
-        isEnabled: true,
-        recordInputs: true,
-        recordOutputs: true,
-      },
-    });
+    const { steps } = await step.ai.wrap(
+      "anthropic-generate-text",
+      generateText,
+      {
+        model: anthropic("claude-sonnet-4-5"),
+        system: systemPrompt,
+        prompt: userPrompt,
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
+      }
+    );
 
     const text =
       steps[0].content[0].type === "text" ? steps[0].content[0].text : "";
