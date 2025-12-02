@@ -16,7 +16,7 @@ interface PageProps {
   }>;
 }
 
-const page = async ({ params }: PageProps) => {
+const Page = async ({ params }: PageProps) => {
   await requireAuth();
 
   const { workflowId } = await params;
@@ -36,4 +36,4 @@ const page = async ({ params }: PageProps) => {
   );
 };
 
-export default page;
+export default Page;
