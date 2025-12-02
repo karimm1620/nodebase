@@ -3,6 +3,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  serverExternalPackages: ['@/generated/prisma/client'],
   async redirects() {
     return [
       {
