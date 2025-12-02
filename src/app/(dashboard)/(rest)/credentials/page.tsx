@@ -11,7 +11,7 @@ type Props = {
   searchParams: Promise<SearchParams>;
 };
 
-const page = async ({ searchParams }: Props) => {
+const Page = async ({ searchParams }: Props) => {
   await requireAuth();
 
   const params = await credentialsParamsLoader(searchParams);
@@ -30,4 +30,4 @@ const page = async ({ searchParams }: Props) => {
   );
 };
 
-export default page;
+export default Page;
